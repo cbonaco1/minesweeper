@@ -162,9 +162,26 @@ class Game
     elsif tile.revealed
       return false
     else
-      #get neighboring tiles
+      reveal_neighbors(tile)
+      won?
     end
   end
+  
+
+  def reveal_neighbors(tile)
+    neighbor_positions = tile.neighbors
+    neighbor_nodes = neighbor_positions.map! { |n| board.grid[n[0]][n[1]]  }
+    if neighbor_nodes.any? { |n| n.bomb  }
+      return tile.reveal
+    end
+
+    neighbor_nodes.each do |neighbor|
+      reveal_neighbors(neighbor)
+    end
+  end
+
+
+
 
 
 
