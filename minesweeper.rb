@@ -166,7 +166,7 @@ class Game
       won?
     end
   end
-  
+
 
   def reveal_neighbors(tile)
     neighbor_positions = tile.neighbors
@@ -180,6 +180,14 @@ class Game
     end
   end
 
+  def won?
+    revealed_square_count = 0
+    board.grid.each do |row|
+      revealed_square_count += row.count { |tile| tile.revealed }
+    end
+
+  end
+  end
 
 
 
