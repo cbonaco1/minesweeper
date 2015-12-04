@@ -51,10 +51,6 @@ class Board
   #   count
   # end
 
-  def get_adjacent_positions(pos)
-    #pos = [2, 3]
-  end
-
 
 
 end
@@ -75,6 +71,10 @@ class Tile
 
   def reveal
     self.revealed = true
+  end
+
+  def flag
+    self.flagged = true
   end
 
   def neighbors
@@ -117,6 +117,59 @@ class Tile
 
     adjacent_bomb_count
   end
+
+end
+
+
+class Game
+  attr_reader :board
+
+  def initialize(name, board = Board.new)
+    @player_name = name
+    @board = board
+  end
+
+  def play
+    over? = validate_move
+    play until over?
+
+  end
+
+
+  def get_move
+    puts "Please enter a move in the form X Y"
+    pos = gets.chomp.split(" ").map { |num| num.to_i  }
+    puts "Would you like to flag this square? (Y/N)"
+    flag = gets.chomp
+    flag = (flag == "Y") ? true : false
+    [pos, flag]
+  end
+
+
+  def validate_move
+    position, flag = get_move
+    tile = board.grid[position[0]][position[1]]
+
+    #user selected a bomb, game over
+    if(tile.bomb)
+      puts "Game Over!"
+      # board.display(true)
+      return true
+    elsif flag
+      tile.flag = (tile.flag) ? false : true
+      return false
+    #User selects a tile already revealed (do nothing)
+    elsif tile.revealed
+      return false
+    else
+      #get neighboring tiles
+    end
+  end
+
+
+
+
+
 
 
 
