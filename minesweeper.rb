@@ -17,13 +17,13 @@ class Board
     populate_bombs
   end
 
-  # def [](row, col)
-  #  @grid[row][col]
-  # end
+  def [](row, col)
+   @grid[row][col]
+  end
 
 
   def populate_bombs
-    num_bombs = rand(1..40)
+    num_bombs = rand(1..70)
     num_bombs.times do
       rand_x = rand(0...grid.length)
       rand_y = rand(0...grid.length)
@@ -107,7 +107,15 @@ class Tile
   end
 
   def neighbor_bomb_count
+    adjacent_bomb_count = 0
+    neighbors.each do |neighbor|
+      tile = board.grid[neighbor[0]][neighbor[1]]
+      if tile.bomb
+        adjacent_bomb_count += 1
+      end
+    end
 
+    adjacent_bomb_count
   end
 
 
